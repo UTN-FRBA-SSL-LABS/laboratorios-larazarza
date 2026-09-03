@@ -370,11 +370,11 @@ Todos son correctos. Lo importante no es el número exacto sino que sea **varios
 **P1.** Ejecutá `wc -l programa.i` y escribí el número de líneas que obtenés.
 
 <!-- Completá la línea siguiente con el número exacto (solo dígitos, sin espacios): -->
-LINEAS_I=
+LINEAS_I=2247
 
 ¿Por qué ese número es tan mayor que las 94 líneas de `programa.c`?
 
-> **R:**
+> **R: Es tan mayor porque el #include copió el contenido completo de los headers del sistema, este numero podría variar según el sistema operativo y la versión del compilador ya que cada sistema tiene su propia implementación de los headers**
 
 ---
 
