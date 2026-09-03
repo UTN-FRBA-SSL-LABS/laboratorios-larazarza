@@ -413,11 +413,11 @@ grep "Archivo fuente principal" programa.i   # no debe encontrar nada
 ¿El comando encuentra algo o no devuelve nada?
 
 <!-- Completá con SI (si encontró algo) o NO (si no encontró nada): -->
-COMENTARIOS_EN_I=
+COMENTARIOS_EN_I=NO
 
 ¿Por qué ocurre eso?
 
-> **R:**
+> **R: El grep no encuentra nada porque el comentario "Archivo fuente principal" ya no existe en programa.i. Esto pasa porque el preprocesador elimina completamente todos los comentarios del código antes de pasarlo al compilador, por eso no queda ninguno ellos en el archivo .i.**
 
 ---
 
@@ -446,24 +446,24 @@ Nótese que `CUADRADO(5)` se expande a `((5) * (5))`, con los paréntesis extra 
 
 **P3.** Ejecutá `grep -n "CUADRADO" programa.i` y copiá la salida completa.
 
-> **R:**
+> **R: 2216:    printf("CUADRADO(%d)      = %d\n", 5, ((5) * (5)))**
 
 ¿El nombre `CUADRADO` aparece tal cual en `programa.i`, o fue reemplazado
 por otra cosa? Respondé SI o NO:
 
 <!-- Completá con SI o NO: -->
-CUADRADO_EN_I=
+CUADRADO_EN_I=NO
 
 ---
 
 **P4.** Ejecutá `grep -n '"1\.0"' programa.i` y copiá la línea encontrada.
 
-> **R:**
+> **R: 2207:    printf("=== Laboratorio de Compilacion en C (v%s) ===\n\n", "1.0")**
 
 ¿Cuál era el nombre de la macro en `programa.c` que fue reemplazada por `"1.0"`?
 
 <!-- Completá con el nombre exacto de la macro (en mayúsculas, como está en el fuente): -->
-NOMBRE_MACRO_VERSION=
+NOMBRE_MACRO_VERSION=VERSION
 
 ---
 
@@ -499,13 +499,13 @@ gcc -E programa.c | grep "Iniciando"
 gcc -E -DDEBUG programa.c | grep "Iniciando"
 ```
 
-> **R:**
+> **R: El primero no devuelve nada, el segundo devuelve printf("[DEBUG] %s\n", ("Iniciando main"));**
 
 ¿Agregar `-DDEBUG` hace que aparezca código nuevo en el `.i` que antes no estaba?
 Respondé SI o NO:
 
 <!-- Completá con SI o NO: -->
-DEBUG_ACTIVA_CODIGO=
+DEBUG_ACTIVA_CODIGO=SI
 
 ---
 
@@ -528,7 +528,7 @@ grep -n "stdio.h" programa.i | head -5
 
 ¿Qué información comunican esas líneas `# N "archivo"`? ¿De qué archivo proviene el bloque que contiene la declaración de `printf`?
 
-> **R:**
+> **R: Esas líneas indican de qué archivo y qué número de línea del archivo original proviene el bloque de código que sigue a continuación. En este caso, el bloque que contiene la declaración de printf proviene de stdio.h, ubicado en C:/ProgramData/mingw64/mingw64/x86_64-w64-mingw32/include/stdio.h.**
 
 ---
 
