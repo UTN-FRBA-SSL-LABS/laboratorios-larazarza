@@ -1015,7 +1015,10 @@ nm programa | grep area_circulo
 **P13.** Enlazá con `gcc programa.o matematica.o -o programa`.
 Ejecutá `nm programa | grep "area_circulo"` y copiá la salida.
 
-> **R:0000000140001600 T area_circulo**
+> **R:**
+> ```
+> 0000000140001600 T area_circulo
+> ```
 
 ¿Con qué letra aparece ahora `area_circulo` en el ejecutable final?
 Escribí solo la letra:
@@ -1038,16 +1041,24 @@ Quedan algunos `U` incluso en el ejecutable final. ¿Por qué? Son funciones de 
 **P14.** Ejecutá `nm programa | grep "^ *U"` y copiá la salida.
 
 > **R:**
+> ```
+>                  U __end__
+> ```
 
 ¿Quedan símbolos de tipo `U` en el ejecutable final?
 Respondé SI o NO:
 
 <!-- Completá con SI o NO: -->
-SIMBOLOS_U_FINAL=
+SIMBOLOS_U_FINAL=SI
 
 ¿Por qué quedan? ¿Quién los resuelve y cuándo?
 
 > **R:**
+> ```
+> Quedan porque son funciones de la biblioteca dinámica del sistema y como se cargan en tiempo de ejecución, el 
+> enlazador no las copia sino que deja registrado su nombre para que el cargador dinámico las resuelva cuando
+> el programa se ejecute
+> ```
 
 ---
 
@@ -1062,11 +1073,29 @@ SIMBOLOS_U_FINAL=
 **P15.** Ejecutá `./programa` y copiá la salida completa.
 
 > **R:**
+> ```
+> === Laboratorio de Compilacion en C (v1.0) ===
+>
+> sumar(3, 4)       = 7
+> CUADRADO(5)      = 25
+> MAX(7, 12)        = 12
+> ----------------------------------------
+> area_circulo(5.0) = 78.5398
+> Factoriales:
+>   0! = 1
+>   1! = 1
+>   2! = 2
+>   3! = 6
+>   4! = 24
+>   5! = 120
+> ----------------------------------------
+> Llamadas a sumar(): 1
+> ```
 
 ¿Qué valor da `factorial(5)`? Escribí solo el número:
 
 <!-- Completá con el número exacto: -->
-FACTORIAL_5=
+FACTORIAL_5=120
 
 ---
 
@@ -1078,7 +1107,7 @@ FACTORIAL_5=
 como `CUADRADO(x)` y una **función real** como `sumar(a, b)`.
 ¿En qué etapa "desaparece" cada una? ¿Cuál tiene verificación de tipos?
 
-> **R:**
+> **R:La diferencia es que CUADRADO(x) solo se expande en tiempo de preprocesamiento y el compilador nunca la ve como tal (el preprocesador la reemplaza textualmente por su expresión expandida), o sea que desaparece en el preprocesamiento. Además, las macros en general no verifican tipos, mientras que las funciones reales sí lo hacen. La funcion sumar, al ser una funcion real, no va a desaparecer nunca.**
 
 ---
 
@@ -1086,18 +1115,26 @@ como `CUADRADO(x)` y una **función real** como `sumar(a, b)`.
 en la salida de `nm`? ¿En qué sección del archivo objeto vive cada uno?
 
 > **R:**
-
+> ```
+> T	esta definido en la sección text (código ejecutable) — funciones
+> D	esta definido en la sección data  — variables globales que tienen un valor inicial (por ejemplo int x = 5;), a diferencia de B (BSS) que son variables sin inicializar.
+> ```
 ---
 
 **P18.** (Bonus) Ejecutá `otool -L programa` (macOS) o `ldd programa` (Linux)
 y copiá la salida.
 
 > **R:**
+> ```
+>        ntdll.dll => /c/windows/SYSTEM32/ntdll.dll (0x7ff85c620000)
+>        KERNEL32.DLL => /c/windows/System32/KERNEL32.DLL (0x7ff85ada0000)
+>        KERNELBASE.dll => /c/windows/System32/KERNELBASE.dll (0x7ff859830000)
+>        ucrtbase.dll => /c/windows/System32/ucrtbase.dll (0x7ff859ea0000)
+> ```
 
 ¿Por qué `libc` no hubo que especificarla explícitamente al enlazar con `gcc`?
 
-> **R:**
-
+> **R:Porque `gcc` no es el enlazador en sí, sino un "driver": cuando lo invocamos para enlazar, internamente llama al enlazador real (`ld`) agregando automáticamente los parámetros necesarios, incluyendo `libc` por defecto. Como prácticamente todo programa en C depende de funciones básicas de la biblioteca estándar, `gcc` la enlaza siempre sin que el programador tenga que pedirlo explícitamente. Solo haría falta especificar bibliotecas adicionales que no sean la estándar (por ejemplo, con `-lm` para la biblioteca matemática).**
 ---
 
 ## Bonus: inspeccionar las fases internas
