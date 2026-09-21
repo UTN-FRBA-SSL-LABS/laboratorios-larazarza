@@ -7,6 +7,11 @@ int  yylex(void);
 void yyerror(const char *msg) { fprintf(stderr, "Error: %s\n", msg); }
 %}
 
+%left '+' '-'
+%left '*' '/'
+%right POW
+%right UMINUS
+
 %token NUM
 %token POW
 %token UMINUS   /* token ficticio para el menos unario — ya declarado, no hay que tocarlo */
@@ -46,7 +51,7 @@ exp:
   | exp '*' exp           { $$ = $1 * $3; }
   | exp '/' exp           { $$ = $1 / $3; }
   | exp POW exp           { $$ = (int)pow($1, $3); }
-  | '-' exp %prec UMINUS  { $$ = 0; /* TODO 5 — Reemplazar 0 por la expresión correcta */ }
+  | '-' exp %prec UMINUS  { $$ = -$2; /* TODO 5 — Reemplazar 0 por la expresión correcta */ }
   | '(' exp ')'           { $$ = $2; }
   | NUM                   { $$ = $1; }
   ;
